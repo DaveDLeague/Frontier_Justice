@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL.h>
 
+#include "input_manager.h"
+
 FrontierJustice::FrontierJustice(){
     isRunning = false;
 }
@@ -24,7 +26,7 @@ void FrontierJustice::run(){
     int numFrames = 0;
     long frameCtr = 0;
 
-    const double frameTime = 1.0 / 10000;
+    const double frameTime = 1.0 / 5000.0;
 
     long endTime = Time::currentTime();
     double waitTime = 0;
@@ -39,34 +41,35 @@ void FrontierJustice::run(){
         waitTime += elapsedTime / (double)Time::SECOND;
         frameCtr += elapsedTime;
 
-        printf("%lu\n", frameCtr);
-
         while(waitTime > frameTime){
             renderFrame = true;
             waitTime -= frameTime;
+
+            InputManager::update();
 
             game.input();
             game.update();
 
             if(frameCtr >= Time::SECOND){
-                printf("%lu\n", frameCtr);
+                printf("%i\n", numFrames);
 
                 numFrames = 0;
                 frameCtr = 0;
+            }
+
+            if(GameWindow::isCloseRequested()){
+                stop();
             }
         }
 
         if(renderFrame){
             render();
-
             numFrames++;
         }else{
-            //SDL_Delay(1);
+            SDL_Delay(1);
         }
 
-        if(GameWindow::isCloseRequested()){
-            stop();
-        }
+
     }
     clean();
 }

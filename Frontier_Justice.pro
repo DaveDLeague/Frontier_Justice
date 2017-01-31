@@ -7,13 +7,16 @@ SOURCES += main.cpp \
     frontier_justice.cpp \
     game_time.cpp \
     game_window.cpp \
-    game.cpp
+    game.cpp \
+    input_manager.cpp
 
 HEADERS += \
     frontier_justice.h \
     game_window.h \
     game_time.h \
-    game.h
+    game.h \
+    input_manager.h \
+    game_math.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib/x86_64-linux-gnu/ -lSDL2
 
