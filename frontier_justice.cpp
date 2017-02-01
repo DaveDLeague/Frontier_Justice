@@ -45,8 +45,6 @@ void FrontierJustice::run(){
             renderFrame = true;
             waitTime -= frameTime;
 
-            InputManager::update();
-
             game.input();
             game.update();
 
@@ -69,7 +67,7 @@ void FrontierJustice::run(){
             SDL_Delay(1);
         }
 
-
+        GameWindow::update();
     }
     clean();
 }

@@ -9,7 +9,7 @@ public:
     InputManager();
 
     static void init();
-    static void update();
+    static void update(int event);
     static bool getKeyUp(int key);
     static bool getKeyDown(int key);
     static bool getMouseClick();

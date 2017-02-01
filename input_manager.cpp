@@ -10,16 +10,18 @@ void InputManager::init(){
     SDL_Init(SDL_INIT_GAMECONTROLLER);
 }
 
-void InputManager::update(){
+void InputManager::update(int event){
 
 }
 
 bool InputManager::getKeyUp(int key){
-    return false;
+    const Uint8 *keys = SDL_GetKeyboardState(NULL);
+    return keys[key];
 }
 
 bool InputManager::getKeyDown(int key){
-    return false;
+    const Uint8  *keys = SDL_GetKeyboardState(NULL);
+    return keys[key];
 }
 
 bool InputManager::getMouseClick(){

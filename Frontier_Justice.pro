@@ -24,3 +24,9 @@ INCLUDEPATH += $$PWD/../../../../usr/lib/x86_64-linux-gnu
 DEPENDPATH += $$PWD/../../../../usr/lib/x86_64-linux-gnu
 
 unix:!macx: PRE_TARGETDEPS += $$PWD/../../../../usr/lib/x86_64-linux-gnu/libSDL2.a
+
+
+mac: LIBS += -F$$PWD/../../Library/Frameworks/ -framework SDL2
+
+INCLUDEPATH += $$PWD/../../Library/Frameworks
+DEPENDPATH += $$PWD/../../Library/Frameworks
