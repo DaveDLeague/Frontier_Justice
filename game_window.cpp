@@ -37,8 +37,6 @@ void GameWindow::update(){
         case SDL_MOUSEBUTTONUP:
         case SDL_MOUSEMOTION:
         case SDL_MOUSEWHEEL:{
-            InputManager::update(event.type);
-            break;
         }
         }
     }
@@ -53,7 +51,7 @@ void GameWindow::dispose(){
 }
 
 bool GameWindow::isCloseRequested(){
-    if(event.window.event == SDL_WINDOWEVENT_CLOSE){
+    if(event.type == SDL_QUIT){
         return true;
     }
     else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {

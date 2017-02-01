@@ -45,18 +45,22 @@ void FrontierJustice::run(){
             renderFrame = true;
             waitTime -= frameTime;
 
+            if(GameWindow::isCloseRequested()){
+                stop();
+            }
+
+            Time::setDeltaTime(frameTime);
+
+            GameWindow::update();
+            InputManager::update();
             game.input();
             game.update();
 
             if(frameCtr >= Time::SECOND){
-                printf("%i\n", numFrames);
+                //printf("%i\n", numFrames);
 
                 numFrames = 0;
                 frameCtr = 0;
-            }
-
-            if(GameWindow::isCloseRequested()){
-                stop();
             }
         }
 
@@ -66,14 +70,13 @@ void FrontierJustice::run(){
         }else{
             SDL_Delay(1);
         }
-
-        GameWindow::update();
     }
     clean();
 }
 
 void FrontierJustice::render(){
     game.render();
+    GameWindow::render();
 }
 
 void FrontierJustice::clean(){

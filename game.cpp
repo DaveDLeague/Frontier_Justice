@@ -7,8 +7,7 @@ Game::Game(){
 }
 
 void Game::input(){
-    if(InputManager::getKeyDown(SDL_SCANCODE_RETURN)){
-    }
+
 }
 
 void Game::update(){
