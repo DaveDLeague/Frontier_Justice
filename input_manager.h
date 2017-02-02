@@ -1,5 +1,4 @@
-#ifndef INPUT_MANAGER_H
-#define INPUT_MANAGER_H
+#pragma once
 
 #include "game_math.h"
 
@@ -16,7 +15,6 @@ public:
     static bool getMouseClick(unsigned int button);
     static bool getMouseButtonDown(unsigned int button);
     static bool getMouseButtonUp(unsigned int button);
-    static Vec2i getMouseCursorLocation();
+    static Vec2f getMouseCursorLocation();
 };
 
-#endif // INPUT_MANAGER_H

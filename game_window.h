@@ -1,6 +1,4 @@
-#ifndef GAMEWINDOW_H
-#define GAMEWINDOW_H
-
+#pragma once
 
 class GameWindow
 {
@@ -14,4 +12,3 @@ public:
     static bool isCloseRequested();
 };
 
-#endif // GAMEWINDOW_H

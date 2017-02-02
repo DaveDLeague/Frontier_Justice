@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     game_time.cpp \
     game_window.cpp \
     game.cpp \
-    input_manager.cpp
+    input_manager.cpp \
+    render_utility.cpp
 
 HEADERS += \
     frontier_justice.h \
@@ -16,7 +17,8 @@ HEADERS += \
     game_time.h \
     game.h \
     input_manager.h \
-    game_math.h
+    game_math.h \
+    render_utility.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib/x86_64-linux-gnu/ -lSDL2
 
@@ -30,3 +32,15 @@ mac: LIBS += -F$$PWD/../../Library/Frameworks/ -framework SDL2
 
 INCLUDEPATH += $$PWD/../../Library/Frameworks
 DEPENDPATH += $$PWD/../../Library/Frameworks
+
+unix:!macx: LIBS += -L$$PWD/../../../../usr/lib/x86_64-linux-gnu/ -lGLEW
+
+INCLUDEPATH += $$PWD/../../../../usr/lib/x86_64-linux-gnu
+DEPENDPATH += $$PWD/../../../../usr/lib/x86_64-linux-gnu
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/../../../../usr/lib/x86_64-linux-gnu/libGLEW.a
+
+unix:!macx: LIBS += -L$$PWD/../../../../usr/lib/x86_64-linux-gnu/ -lGL
+
+INCLUDEPATH += $$PWD/../../../../usr/lib/x86_64-linux-gnu
+DEPENDPATH += $$PWD/../../../../usr/lib/x86_64-linux-gnu

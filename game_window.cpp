@@ -1,6 +1,7 @@
 #include "game_window.h"
 
 #include <SDL2/SDL.h>
+#include <GL/glew.h>
 
 #include "input_manager.h"
 
@@ -16,6 +17,11 @@ void GameWindow::createWindow(int width, int height, char* title){
     SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
     context = SDL_GL_CreateContext(window);
+
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    SDL_GL_SetSwapInterval(0);
 
     InputManager::init();
 }

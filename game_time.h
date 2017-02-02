@@ -1,5 +1,4 @@
-#ifndef TIME_H
-#define TIME_H
+#pragma once
 
 
 class Time
@@ -15,4 +14,3 @@ public:
 private:
 };
 
-#endif // TIME_H

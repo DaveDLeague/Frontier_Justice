@@ -3,8 +3,10 @@
 #include <SDL2/SDL.h>
 
 #include "input_manager.h"
+#include "render_utility.h"
 
 FrontierJustice::FrontierJustice(){
+    RenderUtility::init();
     isRunning = false;
 }
 
@@ -52,12 +54,14 @@ void FrontierJustice::run(){
             Time::setDeltaTime(frameTime);
 
             GameWindow::update();
-            InputManager::update();
+
             game.input();
             game.update();
 
+            InputManager::update();
+
             if(frameCtr >= Time::SECOND){
-                //printf("%i\n", numFrames);
+                printf("%i\n", numFrames);
 
                 numFrames = 0;
                 frameCtr = 0;
@@ -75,6 +79,7 @@ void FrontierJustice::run(){
 }
 
 void FrontierJustice::render(){
+    RenderUtility::clearScreen();
     game.render();
     GameWindow::render();
 }

@@ -9,16 +9,11 @@ static const int TOTAL_KEYS = 256;
 static const int TOTAL_MOUSE_STATES = 5;
 
 static std::vector<int> activeKeys;
-static std::vector<int> keysUp;
-static std::vector<int> keysDown;
-
 static std::vector<int> activeMouse;
-static std::vector<int> mouseUp;
-static std::vector<int> mouseDown;
 
-bool contains(const std::vector<int> *vec, int v){
-    for(unsigned int i = 0; i < vec->size(); i++){
-        if(vec->at(i) == v){
+static bool contains(const std::vector<int> &vec, int v){
+    for(unsigned int i = 0; i < vec.size(); i++){
+        if(vec[i] == v){
             return true;
         }
     }
@@ -34,34 +29,6 @@ void InputManager::init(){
 }
 
 void InputManager::update(){
-    mouseUp.clear();
-    for(int i = 0; i < TOTAL_MOUSE_STATES; i++){
-        if(!getMouseClick(i) && contains(&activeMouse, i)){
-            mouseUp.push_back(i);
-        }
-    }
-
-    mouseDown.clear();
-    for(int i = 0; i < TOTAL_MOUSE_STATES; i++){
-        if(getMouseClick(i) && !contains(&activeMouse, i)){
-            mouseDown.push_back(i);
-        }
-    }
-
-    keysUp.clear();
-    for(int i = 0; i < TOTAL_KEYS; i++){
-        if(!getKey(i) && contains(&activeKeys, i)){
-            keysUp.push_back(i);
-        }
-    }
-
-    keysDown.clear();
-    for(int i = 0; i < TOTAL_KEYS; i++){
-        if(getKey(i) && !contains(&activeKeys, i)){
-            keysDown.push_back(i);
-        }
-    }
-
     activeKeys.clear();
     for(int i = 0; i < TOTAL_KEYS; i++){
         if(getKey(i)){
@@ -83,11 +50,11 @@ bool InputManager::getKey(unsigned int key){
 }
 
 bool InputManager::getKeyUp(unsigned int key){
-    return contains(&keysUp, key);
+    return !getKey(key) && contains(activeKeys, key);
 }
 
 bool InputManager::getKeyDown(unsigned int key){
-    return contains(&keysDown, key);
+    return getKey(key) && !contains(activeKeys, key);
 }
 
 bool InputManager::getMouseClick(unsigned int button){
@@ -95,15 +62,17 @@ bool InputManager::getMouseClick(unsigned int button){
 }
 
 bool InputManager::getMouseButtonDown(unsigned int button){
-    return contains(&mouseDown, button);
+    return getMouseClick(button) && !contains(activeMouse, button);
 }
 
 bool InputManager::getMouseButtonUp(unsigned int button){
-    return contains(&mouseUp, button);
+    return !getMouseClick(button) && contains(activeMouse, button);
 }
 
-Vec2i InputManager::getMouseCursorLocation(){
-    Vec2i pos;
-    SDL_GetMouseState(&pos.x, &pos.y);
+Vec2f InputManager::getMouseCursorLocation(){
+    Vec2f pos;
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    pos.x = x; pos.y = y;
     return pos;
 }
