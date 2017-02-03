@@ -27,6 +27,20 @@ struct Vec3f{
     }
 };
 
+struct Vec4f{
+    float x;
+    float y;
+    float z;
+    float w;
+
+    Vec4f(float x = 0, float y = 0, float z = 0, float w = 0){
+        this->x = x;
+        this->y = y;
+        this->z = z;
+        this->w = w;
+    }
+};
+
 struct Mat4f{
     float matrix[4][4];
 };
@@ -52,12 +66,24 @@ public:
         printf("(%f, %f)", v.x, v.y);
     }
 
+    static void printVec(const Vec3f &v){
+        printf("(%f, %f, %f)", v.x, v.y, v.z);
+    }
+
+    static void printVec(const Vec4f &v){
+        printf("(%f, %f, %f, %f)", v.x, v.y, v.z, v.w);
+    }
+
     static float length(const Vec2f &v){
         return (float)sqrt(v.x * v.x + v.y * v.y);
     }
 
     static float length(const Vec3f &v){
         return (float)sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    }
+
+    static float length(const Vec4f &v){
+        return (float)sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
     }
 
     static float length(const Quaternion &q){
@@ -70,6 +96,10 @@ public:
 
     static float dot(const Vec3f &v1, const Vec3f &v2){
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+    }
+
+    static float dot(const Vec4f &v1, const Vec4f &v2){
+        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
     }
 
     static Vec3f cross(const Vec3f &v1, const Vec3f &v2){
@@ -88,6 +118,11 @@ public:
     static Vec3f normalize(const Vec3f &v){
         float l = length(v);
         return Vec3f(v.x / l, v.y / l, v.z / l);
+    }
+
+    static Vec4f normalize(const Vec4f &v){
+        float l = length(v);
+        return Vec4f(v.x / l, v.y / l, v.z / l, v.w / l);
     }
 
     static Quaternion normalize(const Quaternion &q){
@@ -147,6 +182,14 @@ public:
         return Vec3f(v1.x + f, v1.y + f, v1.z + f);
     }
 
+    static Vec4f add(const Vec4f &v1, const Vec4f &v2){
+        return Vec4f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
+    }
+
+    static Vec4f add(const Vec4f &v1, float f){
+        return Vec4f(v1.x + f, v1.y + f, v1.z + f, v1.w + f);
+    }
+
     static Vec2f sub(Vec2f v1, Vec2f v2){
         return Vec2f(v1.x - v2.x, v1.y - v2.y);
     }
@@ -161,6 +204,14 @@ public:
 
     static Vec3f sub(const Vec3f &v1, float f){
         return Vec3f(v1.x - f, v1.y - f, v1.z - f);
+    }
+
+    static Vec4f sub(const Vec4f &v1, const Vec4f &v2){
+        return Vec4f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
+    }
+
+    static Vec4f sub(const Vec4f &v1, float f){
+        return Vec4f(v1.x - f, v1.y - f, v1.z - f, v1.w - f);
     }
 
     static Vec2f mul(Vec2f v1, Vec2f v2){
@@ -179,6 +230,14 @@ public:
         return Vec3f(v1.x * f, v1.y * f, v1.z * f);
     }
 
+    static Vec4f mul(const Vec4f &v1, const Vec4f &v2){
+        return Vec4f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
+    }
+
+    static Vec4f mul(const Vec4f &v1, float f){
+        return Vec4f(v1.x * f, v1.y * f, v1.z * f, v1.w * f);
+    }
+
     static Vec2f div(Vec2f v1, Vec2f v2){
         return Vec2f(v1.x / v2.x, v1.y / v2.y);
     }
@@ -193,6 +252,14 @@ public:
 
     static Vec3f div(const Vec3f &v1, float f){
         return Vec3f(v1.x / f, v1.y / f, v1.z / f);
+    }
+
+    static Vec4f div(const Vec4f &v1, const Vec4f &v2){
+        return Vec4f(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w);
+    }
+
+    static Vec4f div(const Vec4f &v1, float f){
+        return Vec4f(v1.x / f, v1.y / f, v1.z / f, v1.w / f);
     }
 
     static Mat4f createIdentityMatrix(){
@@ -215,5 +282,14 @@ public:
             }
         }
         return m;
+    }
+
+    static void toArray(Mat4f &m, float* f){
+        int ctr = 0;
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                f[ctr++] = m.matrix[i][j];
+            }
+        }
     }
 };

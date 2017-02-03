@@ -32,19 +32,18 @@ void GameWindow::render(){
 
 void GameWindow::update(){
     while(SDL_PollEvent(&event)){
-        switch(event.type){
-        case SDL_WINDOWEVENT:{
-
-            break;
-        }
-        case SDL_KEYDOWN:
-        case SDL_KEYUP:
-        case SDL_MOUSEBUTTONDOWN:
-        case SDL_MOUSEBUTTONUP:
-        case SDL_MOUSEMOTION:
-        case SDL_MOUSEWHEEL:{
-        }
-        }
+//        switch(event.type){
+//        case SDL_WINDOWEVENT:{
+//            break;
+//        }
+//        case SDL_KEYDOWN:
+//        case SDL_KEYUP:
+//        case SDL_MOUSEBUTTONDOWN:
+//        case SDL_MOUSEBUTTONUP:
+//        case SDL_MOUSEMOTION:
+//        case SDL_MOUSEWHEEL:{
+//        }
+//        }
     }
 
     SDL_PumpEvents();
