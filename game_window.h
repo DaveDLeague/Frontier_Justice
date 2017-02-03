@@ -1,6 +1,4 @@
-#ifndef GAMEWINDOW_H
-#define GAMEWINDOW_H
-
+#pragma once
 
 class GameWindow
 {
@@ -9,8 +7,8 @@ public:
 
     static void createWindow(int width, int height, char* title);
     static void render();
+    static void update();
     static void dispose();
     static bool isCloseRequested();
 };
 
-#endif // GAMEWINDOW_H

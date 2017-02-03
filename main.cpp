@@ -5,7 +5,10 @@
 
 int main(int argc, char *argv[])
 {
-    GameWindow::createWindow(800, 600, "Frontier Justice");
+    char* title;
+    argc > 1 ? title = argv[1] : title = "Frontier Justice\0";
+
+    GameWindow::createWindow(800, 600, title);
 
     FrontierJustice fj;
     fj.start();

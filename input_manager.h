@@ -1,5 +1,4 @@
-#ifndef INPUT_MANAGER_H
-#define INPUT_MANAGER_H
+#pragma once
 
 #include "game_math.h"
 
@@ -10,14 +9,12 @@ public:
 
     static void init();
     static void update();
-    static bool getKeyUp(int key);
-    static bool getKeyDown(int key);
-    static bool getMouseClick();
-    static bool getMouseButtonDown(int button);
-    static bool getMouseButtonUp(int button);
+    static bool getKey(unsigned int key);
+    static bool getKeyUp(unsigned int key);
+    static bool getKeyDown(unsigned int key);
+    static bool getMouseClick(unsigned int button);
+    static bool getMouseButtonDown(unsigned int button);
+    static bool getMouseButtonUp(unsigned int button);
     static Vec2f getMouseCursorLocation();
-
-
 };
 
-#endif // INPUT_MANAGER_H

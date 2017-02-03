@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 
 class Game
@@ -10,5 +9,3 @@ public:
     void update();
     void render();
 };
-
-#endif // GAME_H
