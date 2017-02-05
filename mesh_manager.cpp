@@ -16,20 +16,20 @@ Mesh* MeshManager::generateMesh(){
 
 Mesh* MeshManager::generateMesh(Vertex *verts, int size){
     Mesh m;
-    glGenBuffers(1, (GLuint*)&m.vbo);
+    glGenBuffers(1, &m.vbo);
     addVertsToMesh(m, verts, size);
     meshes.push_back(m);
     return &meshes.at(meshes.size() - 1);
 }
 
 void MeshManager::addVertsToMesh(Mesh &mesh, Vertex *verts, int size){
-    float *f = new float[size * 3];
+    GLfloat *f = new float[size * 3];
 
     int ctr = 0;
     for(int i = 0; i < size; i++){
-        f[ctr++] = verts->position.x;
-        f[ctr++] = verts->position.y;
-        f[ctr++] = verts->position.z;
+        f[ctr++] = verts[i].position.x;
+        f[ctr++] = verts[i].position.y;
+        f[ctr++] = verts[i].position.z;
     }
 
     mesh.size = size;
@@ -48,7 +48,7 @@ void MeshManager::renderMeshes(){
         glEnableVertexAttribArray(0);
 
         glBindBuffer(GL_ARRAY_BUFFER, m->vbo);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(GL_FLOAT) * 3, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 3, (GLvoid*)0);
 
         glDrawArrays(GL_TRIANGLES, 0, m->size);
 

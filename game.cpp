@@ -16,7 +16,6 @@ Game::Game(){
     data[1].position = Vec3f(0, 1, 0);
     data[2].position = Vec3f(1, -1, 0);
     Mesh *m = MeshManager::generateMesh(data, 3);
-    if(m->size){}
 }
 
 void Game::input(){
@@ -33,5 +32,6 @@ void Game::update(){
 
 void Game::render(){
     s->useProgram();
+
     MeshManager::renderMeshes();
 }
