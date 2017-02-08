@@ -22,8 +22,15 @@ static string parseShader(string fileName) {
     return shaderStr;
 }
 
-Shader::Shader(string vertexFile, string fragmentFile) {
+Shader::Shader(){
 
+}
+
+Shader::~Shader() {
+    glDeleteProgram(program);
+}
+
+void Shader::createProgram(string vertexFile, string fragmentFile){
     string vs = parseShader(vertexFile);
     string fs = parseShader(fragmentFile);
 
@@ -69,13 +76,74 @@ Shader::Shader(string vertexFile, string fragmentFile) {
     }
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-
-}
-
-Shader::~Shader() {
-    glDeleteProgram(program);
 }
 
 void Shader::useProgram(){
     glUseProgram(program);
+}
+
+void Shader::setUniform1f(int loc, float v){
+    glUniform1f((GLuint)loc, v);
+}
+
+void Shader::setUniform2f(int loc, float v1, float v2){
+    glUniform2f((GLuint)loc, v1, v2);
+}
+
+void Shader::setUniform3f(int loc, float v1, float v2, float v3){
+    glUniform3f((GLuint)loc, v1, v2, v3);
+}
+
+void Shader::setUniform4f(int loc, float v1, float v2, float v3, float v4){
+    glUniform4f((GLuint)loc, v1, v2, v3, v4);
+}
+
+void Shader::setUniform1i(int loc, int v){
+    glUniform1i((GLuint)loc, (GLint)v);
+}
+
+void Shader::setUniform2i(int loc, int v1, int v2){
+    glUniform2i((GLuint)loc, (GLint)v1, (GLint)v2);
+}
+
+void Shader::setUniform3i(int loc, int v1, int v2, int v3){
+    glUniform3i((GLuint)loc, (GLint)v1, (GLint)v2, (GLint)v3);
+}
+
+void Shader::setUniform4i(int loc, int v1, int v2, int v3, int v4){
+    glUniform4i((GLuint)loc, (GLint)v1, (GLint)v2, (GLint)v3, (GLint)v4);
+}
+
+void Shader::setUniform2f(int loc, int count, Vec2f &v){
+    float f[2] = {v.x, v.y};
+    glUniform2fv((GLuint)loc, (GLsizei)count, f);
+}
+
+void Shader::setUniform3f(int loc, int count, Vec3f &v){
+    float f[3] = {v.x, v.y, v.z};
+    glUniform3fv((GLuint)loc, (GLsizei)count, f);
+}
+
+void Shader::setUniform4f(int loc, int count, Vec4f &v){
+    float f[4] = {v.x, v.y, v.z, v.w};
+    glUniform4fv((GLuint)loc, (GLsizei)count, f);
+}
+
+void Shader::setUniformMat4(int loc, Mat4f &v){
+   float m[16];
+
+   int ctr = 0;
+   for(int i = 0; i < 4; i++){
+       for(int j = 0; j < 4; j++){
+           m[ctr++] = v.matrix[i][j];
+       }
+   }
+
+   glUniformMatrix4fv((GLuint)loc, 1, GL_TRUE, (GLfloat*)m);
+}
+
+int Shader::getUniformLocation(string name){
+    GLuint loc = glGetUniformLocation(program, (GLchar*) name.c_str());
+    uniformLocations.push_back(loc);
+    return loc;
 }

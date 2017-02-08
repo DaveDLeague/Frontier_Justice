@@ -62,6 +62,8 @@ struct Quaternion{
 class GameMath{
 public:
 
+
+
     static void printVec(const Vec2f &v){
         printf("(%f, %f)", v.x, v.y);
     }
@@ -282,6 +284,49 @@ public:
             }
         }
         return m;
+    }
+
+    static void quaternionToMatrix(Mat4f &m, const Quaternion &q){
+        m.matrix[0][0] = (1.0f - 2.0f * q.y * q.y - 2.0f * q.z * q.z);
+        m.matrix[0][1] = (2.0f * q.x * q.y - 2.0f * q.z * q.w);
+        m.matrix[0][2] = (2.0f * q.x * q.z + 2.0f * q.y * q.w);
+        m.matrix[0][3] = 0.0f;
+
+        m.matrix[1][0] = (2.0f * q.x * q.y + 2.0f * q.z * q.w);
+        m.matrix[1][1] = (1.0f - 2.0f * q.x * q.x - 2.0f * q.z * q.z);
+        m.matrix[1][2] = (2.0f * q.y * q.z - 2.0f * q.x * q.w);
+        m.matrix[1][3] = 0.0f;
+
+        m.matrix[2][0] = (2.0f * q.x * q.z - 2.0f * q.y * q.w);
+        m.matrix[2][1] = (2.0f * q.y * q.z + 2.0f * q.x * q.w);
+        m.matrix[2][2] = (1.0f - 2.0f * q.x * q.x - 2.0f * q.y * q.y);
+        m.matrix[2][3] = 0.0f;
+
+        m.matrix[3][0] = 0.0f;
+        m.matrix[3][1] = 0.0f;
+        m.matrix[3][2] = 0.0f;
+        m.matrix[3][3] = 1.0f;
+
+
+    }
+
+    static void rotate(Quaternion &q, const Vec3f r, float ang){
+        q.x = r.x * sin(ang / 2);
+        q.y = r.y * sin(ang / 2);
+        q.z = r.z * sin(ang / 2);
+        q.w = cos(ang / 2);
+    }
+
+    static void translate(Mat4f &m, const Vec3f &t){
+        m.matrix[0][3] += t.x;
+        m.matrix[1][3] += t.y;
+        m.matrix[2][3] += t.z;
+    }
+
+    static void scale(Mat4f &m, const Vec3f &s){
+        m.matrix[0][0] *= s.x;
+        m.matrix[1][1] *= s.y;
+        m.matrix[2][2] *= s.z;
     }
 
     static void toArray(Mat4f &m, float* f){
