@@ -7,24 +7,24 @@ SOURCES += main.cpp \
     frontier_justice.cpp \
     FJ_Engine/fj_engine.cpp \
     FJ_Engine/Render_Engine/game_window.cpp \
-    FJ_Engine/input_manager.cpp \
-    FJ_Engine/object_manager.cpp \
-    FJ_Engine/component_manager.cpp \
-    FJ_Engine/scene_manager.cpp \
     FJ_Engine/Render_Engine/shader.cpp \
-    FJ_Engine/Render_Engine/camera.cpp
+    FJ_Engine/Render_Engine/camera.cpp \
+    FJ_Engine/fj_object.cpp \
+    FJ_Engine/fj_input_manager.cpp \
+    FJ_Engine/fj_scene.cpp \
+    FJ_Engine/Render_Engine/mesh.cpp
 
 HEADERS += \
     frontier_justice.h \
     FJ_Engine/fj_engine.h \
     FJ_Engine/Render_Engine/game_window.h \
-    FJ_Engine/input_manager.h \
-    FJ_Engine/object_manager.h \
-    FJ_Engine/component_manager.h \
-    FJ_Engine/scene_manager.h \
     FJ_Engine/Render_Engine/shader.h \
     FJ_Engine/fj_math.h \
-    FJ_Engine/Render_Engine/camera.h
+    FJ_Engine/Render_Engine/camera.h \
+    FJ_Engine/fj_object.h \
+    FJ_Engine/fj_input_manager.h \
+    FJ_Engine/fj_scene.h \
+    FJ_Engine/Render_Engine/mesh.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../../usr/local/lib/ -lSDL2
 unix:!macx: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/libSDL2.a

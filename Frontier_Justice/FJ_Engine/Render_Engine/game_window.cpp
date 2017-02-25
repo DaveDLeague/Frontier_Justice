@@ -15,6 +15,7 @@ GameWindow::GameWindow(const char* title, int locX, int locY, int width, int hei
     }
 
     fullScreen = false;
+    vsync = false;
     this->width = width;
     this->height = height;
 
@@ -62,8 +63,8 @@ void GameWindow::shutdown(){
     SDL_DestroyWindow(window);
 }
 
-void GameWindow::toggleFullScreen(){
-    fullScreen = !fullScreen;
+void GameWindow::setFullScreen(bool b){
+    fullScreen = b;
 
     if(fullScreen){
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -73,4 +74,15 @@ void GameWindow::toggleFullScreen(){
 
     SDL_GetWindowSize(window, &width, &height);
     glViewport(0, 0, width, height);
+}
+
+void GameWindow::setVSync(bool b)
+{
+    vsync = b;
+
+    if(vsync){
+        SDL_GL_SetSwapInterval(1);
+    }else{
+        SDL_GL_SetSwapInterval(0);
+    }
 }

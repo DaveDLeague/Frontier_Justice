@@ -1,4 +1,4 @@
-#include "input_manager.h"
+#include "fj_input_manager.h"
 
 bool InputManager::keys[TOTAL_KEYS];
 bool InputManager::mouseButtons[TOTAL_MOUSE_BUTTONS];

@@ -11,6 +11,7 @@ class Shader
 {
 public:
     GLuint ID;
+    int loc;
 
     Shader();
     void use();

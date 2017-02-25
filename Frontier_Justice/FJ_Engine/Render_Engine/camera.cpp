@@ -26,9 +26,9 @@ void Camera::update(){
 
     rotQuat = qroll * qyaw * qpitch * rotQuat;
     rotation = mat4_cast(rotQuat);
-    forward = (vec3)(rotation * vec4(0.0f, 0.0f, -1.0f, 0.0f));
-    up = (vec3)(rotation * vec4(0.0f, 1.0f, 0.0f, 0.0f));
-    right = (vec3)(rotation * vec4(1.0f, 0.0f, 0.0f, 0.0f));
+    forward = (vec3)(rotation * vec4(0.0f, 0.0f, 1.0f, 0.0f));
+    up = (vec3)(rotation * vec4(0.0f, -1.0f, 0.0f, 0.0f));
+    right = (vec3)(rotation * vec4(-1.0f, 0.0f, 0.0f, 0.0f));
 
     translation = translate(id, position);
     viewMatrix = projection * inverse(rotation) * translation;

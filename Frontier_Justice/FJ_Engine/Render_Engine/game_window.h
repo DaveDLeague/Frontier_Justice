@@ -9,13 +9,15 @@ public:
 
     void update();
     void shutdown();
-    void toggleFullScreen();
+    void setFullScreen(bool b);
+    void setVSync(bool b);
     inline int getWidth(){ return width; }
     inline int getHeight(){ return height; }
 
 private:
     static bool initialized;
     bool fullScreen;
+    bool vsync;
     int width;
     int height;
 };

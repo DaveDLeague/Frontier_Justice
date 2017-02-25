@@ -3,12 +3,11 @@
 #include <string>
 #include <vector>
 
-#include "input_manager.h"
-#include "scene_manager.h"
-#include "object_manager.h"
-#include "component_manager.h"
-
+#include "fj_input_manager.h"
 #include "fj_math.h"
+
+#include "fj_object.h"
+#include "fj_scene.h"
 
 #include "Render_Engine/game_window.h"
 #include "Render_Engine/shader.h"
