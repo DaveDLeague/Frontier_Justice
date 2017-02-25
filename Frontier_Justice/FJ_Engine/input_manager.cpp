@@ -1,6 +1,7 @@
 #include "input_manager.h"
 
 bool InputManager::keys[TOTAL_KEYS];
+bool InputManager::mouseButtons[TOTAL_MOUSE_BUTTONS];
 int InputManager::mouseCursorX;
 int InputManager::mouseCursorY;
 
@@ -22,6 +23,14 @@ void InputManager::update(){
         }
         case SDL_MOUSEMOTION:{
             SDL_GetMouseState(&mouseCursorX, &mouseCursorY);
+            break;
+        }
+        case SDL_MOUSEBUTTONDOWN:{
+            mouseButtons[e.button.button] = true;
+            break;
+        }
+        case SDL_MOUSEBUTTONUP:{
+            mouseButtons[e.button.button] = false;
             break;
         }
         }

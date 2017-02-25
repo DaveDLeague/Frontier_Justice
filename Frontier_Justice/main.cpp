@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if(argc || argv){} // ghetto warning suppressor
+    if(argv && argc){} // ghetto warning suppressor
 
     if(!FrontierJustice::init()){
         cout << "Error initializing Frontier Justice.\n";

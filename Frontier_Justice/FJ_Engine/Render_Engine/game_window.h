@@ -10,7 +10,12 @@ public:
     void update();
     void shutdown();
     void toggleFullScreen();
+    inline int getWidth(){ return width; }
+    inline int getHeight(){ return height; }
 
 private:
+    static bool initialized;
     bool fullScreen;
+    int width;
+    int height;
 };
