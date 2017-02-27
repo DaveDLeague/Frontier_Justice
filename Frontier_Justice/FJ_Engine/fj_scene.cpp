@@ -8,7 +8,7 @@ Scene::Scene(){
     renderableObjects.reserve(128);
     meshes.reserve(64);
 
-    defaultTexture.loadData(greyTex, 1, 1);
+    defaultTexture.loadData(greyTex, 1, 1, true);
     defaultTexture.id = textures.size();
     textures.push_back(defaultTexture);
 }
@@ -18,12 +18,12 @@ void Scene::render(Camera* camera){
     int shaderSize = shaders.size();
 
     for(int i = 0; i < shaderSize; i++){
-        Shader* s = &shaders.at(i);
+        Shader* s = &shaders[i];
         s->use();
         for(int j = 0; j < objSize; j++){
-            FJ_Object* o = &renderableObjects.at(j);
-            Mesh* m = &meshes.at(o->meshId);
-            Texture* t = &textures.at(m->textureId);
+            FJ_Object* o = &renderableObjects[j];
+            Mesh* m = &meshes[o->meshId];
+            Texture* t = &textures[m->textureId];
 
             glBindVertexArray(m->vao);
             glBindTexture(GL_TEXTURE_2D, t->texID);
@@ -33,12 +33,35 @@ void Scene::render(Camera* camera){
     }
 }
 
+void Scene::update(){
+    int objSz = objects.size();
+    int renObjSz = renderableObjects.size();
+
+    for(int i = 0; i < objSz; i++){
+        FJ_Object* obj = &objects[i];
+        obj->modelMatrix = mat4(1);
+    }
+
+    for(int i = 0; i < renObjSz; i++){
+        FJ_Object* obj = &renderableObjects[i];
+        obj->modelMatrix = mat4(1);
+
+        quat qyaw = angleAxis(obj->rotation.y, vec3(0, 1, 0));
+        quat qpitch = angleAxis(obj->rotation.x, vec3(1, 0, 0));
+        quat qroll = angleAxis(obj->rotation.z, vec3(0, 0, 1));
+        obj->rotQuat = qroll * qyaw * qpitch * obj->rotQuat;
+        obj->modelMatrix = mat4_cast(obj->rotQuat);
+        obj->modelMatrix = translate(obj->modelMatrix, obj->position);
+        obj->modelMatrix = scale(obj->modelMatrix, obj->scale);
+    }
+}
+
 void Scene::addMeshToObject(FJ_Object *&obj, Mesh *m){
     obj->meshId = m->id;
 
     renderableObjects.push_back(objects.at(obj->id));
     objects.erase(objects.begin() + obj->id);
-    obj = &renderableObjects.at(renderableObjects.size() - 1);
+    obj = &renderableObjects[renderableObjects.size() - 1];
     obj->id = renderableObjects.size() - 1;
 }
 
@@ -56,14 +79,14 @@ FJ_Object* Scene::createObject(){
     FJ_Object obj;
     obj.id = objects.size();
     objects.push_back(obj);
-    return &objects.at(objects.size() - 1);
+    return &objects[objects.size() - 1];
 }
 
 Shader* Scene::createShader(){
     Shader s;
     s.loc = shaders.size();
     shaders.push_back(s);
-    return &shaders.at(shaders.size() - 1);
+    return &shaders[shaders.size() - 1];
 }
 
 Mesh* Scene::createMesh(float* verts, int vertCount){
@@ -71,12 +94,12 @@ Mesh* Scene::createMesh(float* verts, int vertCount){
     m.id = meshes.size();
     m.textureId = defaultTexture.id;
     meshes.push_back(m);
-    return &meshes.at(meshes.size() - 1);
+    return &meshes[meshes.size() - 1];
 }
 
 Texture *Scene::createTexture(){
     Texture t;
     t.id = textures.size();
     textures.push_back(t);
-    return &textures.at(textures.size() - 1);
+    return &textures[textures.size() - 1];
 }

@@ -6,18 +6,17 @@ CONFIG -= qt
 SOURCES += main.cpp \
     frontier_justice.cpp \
     FJ_Engine/fj_engine.cpp \
-    FJ_Engine/Render_Engine/game_window.cpp \
     FJ_Engine/Render_Engine/shader.cpp \
     FJ_Engine/Render_Engine/camera.cpp \
     FJ_Engine/fj_input_manager.cpp \
     FJ_Engine/fj_scene.cpp \
     FJ_Engine/Render_Engine/mesh.cpp \
-    FJ_Engine/Render_Engine/texture.cpp
+    FJ_Engine/Render_Engine/texture.cpp \
+    FJ_Engine/Render_Engine/window.cpp
 
 HEADERS += \
     frontier_justice.h \
     FJ_Engine/fj_engine.h \
-    FJ_Engine/Render_Engine/game_window.h \
     FJ_Engine/Render_Engine/shader.h \
     FJ_Engine/fj_math.h \
     FJ_Engine/Render_Engine/camera.h \
@@ -25,7 +24,8 @@ HEADERS += \
     FJ_Engine/fj_input_manager.h \
     FJ_Engine/fj_scene.h \
     FJ_Engine/Render_Engine/mesh.h \
-    FJ_Engine/Render_Engine/texture.h
+    FJ_Engine/Render_Engine/texture.h \
+    FJ_Engine/Render_Engine/window.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../../usr/local/lib/ -lSDL2
 unix:!macx: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/libSDL2.a

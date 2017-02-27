@@ -18,6 +18,7 @@ public:
     Scene();
 
     void render(Camera* camera);
+    void update();
     void addMeshToObject(FJ_Object*& obj, Mesh* m);
     void addTextureToMesh(Mesh* m, Texture* t, float* coords, int count);
     void attatchShaderToObject(FJ_Object* obj, Shader* shdr);

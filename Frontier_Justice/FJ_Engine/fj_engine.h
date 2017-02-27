@@ -9,7 +9,7 @@
 #include "fj_object.h"
 #include "fj_scene.h"
 
-#include "Render_Engine/game_window.h"
+#include "Render_Engine/window.h"
 #include "Render_Engine/shader.h"
 #include "Render_Engine/camera.h"
 #include "Render_Engine/mesh.h"

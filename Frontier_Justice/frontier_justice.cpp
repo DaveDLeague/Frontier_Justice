@@ -103,17 +103,10 @@ void FrontierJustice::start(){
     Camera cam(vec3(0, 0, -10), vec3(0, 1, 0));
     cam.setPerspective(-75.0f, window->getWidth()/window->getHeight(), 0.0001, 1000);
 
-    unsigned char tex[] = {
-                        000, 000, 000, 255,     255, 255, 255, 255,
-                        255, 255, 255, 255,     000, 000, 000, 255
-                          };
-
     Texture* t = s.createTexture();
-    //t->loadData(tex, 2, 2);
-    t->loadImage("../Frontier_Justice/res/textures/sample.png");
+    //t->loadData(tex, 2, 2, true);
+    t->loadImage("../Frontier_Justice/res/textures/dragon.bmp", true);
     s.addTextureToMesh(m, t, tCoords, 12);
-
-
 
     long startTime = SDL_GetTicks();
     long endTime = startTime;
@@ -177,6 +170,7 @@ void FrontierJustice::start(){
         }
 
         cam.update();
+        s.update();
         s.render(&cam);
         window->update();
 
