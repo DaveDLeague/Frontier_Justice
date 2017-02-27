@@ -12,6 +12,8 @@
 #include "Render_Engine/game_window.h"
 #include "Render_Engine/shader.h"
 #include "Render_Engine/camera.h"
+#include "Render_Engine/mesh.h"
+#include "Render_Engine/texture.h"
 
 using namespace std;
 

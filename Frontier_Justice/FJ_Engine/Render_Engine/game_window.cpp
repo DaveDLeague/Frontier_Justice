@@ -41,6 +41,8 @@ GameWindow::GameWindow(const char* title, int locX, int locY, int width, int hei
 
     SDL_GL_SetSwapInterval(0);
     glClearColor(0, 0, 0.5, 1);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 bool GameWindow::init(){

@@ -2,7 +2,10 @@
 
 #include <GL/glew.h>
 
-GLfloat verts[] = {
+#include <time.h>
+#include <stdlib.h>
+
+/*GLfloat verts[] = {
         -0.5f, -0.5f, -0.5f,
          0.5f, -0.5f, -0.5f,
          0.5f,  0.5f, -0.5f,
@@ -44,7 +47,29 @@ GLfloat verts[] = {
          0.5f,  0.5f,  0.5f,
         -0.5f,  0.5f,  0.5f,
         -0.5f,  0.5f, -0.5f
-    };
+    };*/
+
+GLfloat verts[] = {
+    -1.0, -1.0, 0.0,
+    -1.0,  1.0, 0.0,
+     1.0,  1.0, 0.0,
+
+     1.0,  1.0, 0.0,
+     1.0, -1.0, 0.0,
+    -1.0, -1.0, 0.0
+};
+
+float tCoords[] = {
+    0.0f, 0.0f,
+    0.0f, 1.0f,
+    1.0f, 1.0f,
+
+    1.0f, 1.0f,
+    1.0f, 0.0f,
+    0.0f, 0.0f,
+};
+
+int sz = 9;
 
 FrontierJustice::FrontierJustice(){
 
@@ -70,14 +95,25 @@ void FrontierJustice::start(){
                   "../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_frag.glsl");
     flat->createUniform("viewMat");
 
+    Mesh* m = s.createMesh(verts, 18);
     FJ_Object* box = s.createObject();
-    s.addMeshToObject(box, verts, 6*6*3);
+    s.addMeshToObject(box, m);
     s.attatchShaderToObject(box, flat);
-
-
 
     Camera cam(vec3(0, 0, -10), vec3(0, 1, 0));
     cam.setPerspective(-75.0f, window->getWidth()/window->getHeight(), 0.0001, 1000);
+
+    unsigned char tex[] = {
+                        000, 000, 000, 255,     255, 255, 255, 255,
+                        255, 255, 255, 255,     000, 000, 000, 255
+                          };
+
+    Texture* t = s.createTexture();
+    //t->loadData(tex, 2, 2);
+    t->loadImage("../Frontier_Justice/res/textures/sample.png");
+    s.addTextureToMesh(m, t, tCoords, 12);
+
+
 
     long startTime = SDL_GetTicks();
     long endTime = startTime;
@@ -85,8 +121,6 @@ void FrontierJustice::start(){
     float deltaTime;
     bool quit = false;
     int fps = 0;
-
-    float v = 0;
 
     while(!quit){
         deltaTime = endTime - startTime;
@@ -141,9 +175,6 @@ void FrontierJustice::start(){
         if(InputManager::keys[InputManager::ESC_KEY]){
             quit = true;
         }
-
-        box->modelMatrix = translate(mat4(1), vec3(sin(v), cos(v), v));
-        v += 0.001 * deltaTime;
 
         cam.update();
         s.render(&cam);
