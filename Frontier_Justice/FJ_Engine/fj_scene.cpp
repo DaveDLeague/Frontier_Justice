@@ -27,7 +27,8 @@ void Scene::render(Camera* camera){
 
             glBindVertexArray(m->vao);
             glBindTexture(GL_TEXTURE_2D, t->texID);
-            s->loadUniformMat4("viewMat", camera->viewMatrix * o->modelMatrix);
+            s->loadUniformMat4("viewMat", camera->viewMatrix);
+            s->loadUniformMat4("modelMat", o->modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, (m->vertexCount / 3));
         }
     }
@@ -37,21 +38,33 @@ void Scene::update(){
     int objSz = objects.size();
     int renObjSz = renderableObjects.size();
 
+    quat qyaw;
+    quat qpitch;
+    quat qroll;
+
     for(int i = 0; i < objSz; i++){
         FJ_Object* obj = &objects[i];
         obj->modelMatrix = mat4(1);
+
+        qyaw = angleAxis(obj->rotation.y, vec3(0, 1, 0));
+        qpitch = angleAxis(obj->rotation.x, vec3(1, 0, 0));
+        qroll = angleAxis(obj->rotation.z, vec3(0, 0, 1));
+        obj->rotQuat = qroll * qyaw * qpitch * obj->rotQuat;
+        obj->modelMatrix = translate(obj->modelMatrix, obj->position);
+        obj->modelMatrix = obj->modelMatrix * mat4_cast(obj->rotQuat);
+        obj->modelMatrix = scale(obj->modelMatrix, obj->scale);    
     }
 
     for(int i = 0; i < renObjSz; i++){
         FJ_Object* obj = &renderableObjects[i];
         obj->modelMatrix = mat4(1);
 
-        quat qyaw = angleAxis(obj->rotation.y, vec3(0, 1, 0));
-        quat qpitch = angleAxis(obj->rotation.x, vec3(1, 0, 0));
-        quat qroll = angleAxis(obj->rotation.z, vec3(0, 0, 1));
+        qyaw = angleAxis(obj->rotation.y, vec3(0, 1, 0));
+        qpitch = angleAxis(obj->rotation.x, vec3(1, 0, 0));
+        qroll = angleAxis(obj->rotation.z, vec3(0, 0, 1));
         obj->rotQuat = qroll * qyaw * qpitch * obj->rotQuat;
-        obj->modelMatrix = mat4_cast(obj->rotQuat);
         obj->modelMatrix = translate(obj->modelMatrix, obj->position);
+        obj->modelMatrix = obj->modelMatrix * mat4_cast(obj->rotQuat);
         obj->modelMatrix = scale(obj->modelMatrix, obj->scale);
     }
 }

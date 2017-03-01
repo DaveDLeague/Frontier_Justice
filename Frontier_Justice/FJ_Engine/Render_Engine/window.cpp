@@ -41,6 +41,11 @@ GameWindow::GameWindow(const char* title, int locX, int locY, int width, int hei
 
     SDL_GL_SetSwapInterval(0);
     glClearColor(0, 0, 0.5, 1);
+
+    glEnable(GL_DEPTH_TEST);
+    glFrontFace(GL_CW);
+    glCullFace(GL_BACK);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -57,7 +62,7 @@ bool GameWindow::init(){
 
 void GameWindow::update(){
     SDL_GL_SwapWindow(window);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GameWindow::shutdown(){

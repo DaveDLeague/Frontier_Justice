@@ -1,6 +1,6 @@
 #include "mesh.h"
 
-Mesh::Mesh(float* verts, int count){
+Mesh::Mesh(const float* verts, int count){
     this->vertexCount = count;
 
     glGenVertexArrays(1, &vao);
@@ -17,7 +17,7 @@ Mesh::Mesh(float* verts, int count){
     vbos.push_back(vbo);
 }
 
-void Mesh::addTextureCoordinates(float *coords, int count){
+void Mesh::addTextureCoordinates(const float *coords, int count){
     GLuint vbo;
     int attrib = vbos.size();
 
@@ -31,3 +31,16 @@ void Mesh::addTextureCoordinates(float *coords, int count){
 }
 
 
+
+void Mesh::addNormalCoordinates(const float *coords, int count){
+    GLuint vbo;
+    int attrib = vbos.size();
+
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float*) * count, coords, GL_STATIC_DRAW);
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+    glEnableVertexAttribArray(attrib);
+    glBindVertexArray(0);
+    vbos.push_back(vbo);
+}

@@ -13,6 +13,19 @@ public:
     static const int LEFT_KEY = SDL_SCANCODE_LEFT;
     static const int RIGHT_KEY = SDL_SCANCODE_RIGHT;
 
+    static const int F1_KEY = SDL_SCANCODE_F1;
+    static const int F2_KEY = SDL_SCANCODE_F2;
+    static const int F3_KEY = SDL_SCANCODE_F3;
+    static const int F4_KEY = SDL_SCANCODE_F4;
+    static const int F5_KEY = SDL_SCANCODE_F5;
+    static const int F6_KEY = SDL_SCANCODE_F6;
+    static const int F7_KEY = SDL_SCANCODE_F7;
+    static const int F8_KEY = SDL_SCANCODE_F8;
+    static const int F9_KEY = SDL_SCANCODE_F9;
+    static const int F10_KEY = SDL_SCANCODE_F10;
+    static const int F11_KEY = SDL_SCANCODE_F11;
+    static const int F12_KEY = SDL_SCANCODE_F12;
+
     static const int A_KEY = SDL_SCANCODE_A;
     static const int D_KEY = SDL_SCANCODE_D;
     static const int E_KEY = SDL_SCANCODE_E;

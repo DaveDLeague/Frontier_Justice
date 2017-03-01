@@ -17,8 +17,9 @@ public:
     GLuint vao;
     vector<GLuint> vbos;
 
-    Mesh(float* verts, int count);
-    void addTextureCoordinates(float* coords, int count);
+    Mesh(const float* verts, int count);
+    void addTextureCoordinates(const float* coords, int count);
+    void addNormalCoordinates(const float* coords, int count);
 
 private:
 };
