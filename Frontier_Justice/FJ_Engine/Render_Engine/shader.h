@@ -5,15 +5,16 @@
 
 #include <GL/glew.h>
 
-#include "../fj_math.h"
+#include "../math_util.h"
 
 class Shader
 {
 public:
-    GLuint ID;
-    int loc;
+    int id;
 
     Shader();
+    void operator=(Shader* s);
+
     void use();
     void compile(const char* vertSrc, const char* fragSrc, const char* geoSrc = nullptr);
     void createUniform(std::string name);
@@ -29,6 +30,7 @@ public:
     void loadUniformMat4(std::string name, mat4 m);
 
 private:
+    GLuint glID;
     void checkErrors(GLuint obj, std::string type);
     std::map<std::string, int> uniforms;
 };

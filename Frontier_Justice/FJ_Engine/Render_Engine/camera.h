@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../fj_math.h"
-#include "../fj_input_manager.h"
+#include "../math_util.h"
 
 class Camera{
 public:

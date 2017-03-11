@@ -8,8 +8,13 @@ Shader::Shader(){
 
 }
 
+void Shader::operator=(Shader *s){
+    this->glID = s->glID;
+    this->id = s->id;
+}
+
 void Shader::use(){
-    glUseProgram(this->ID);
+    glUseProgram(this->glID);
 }
 
 void Shader::compile(const char* vertSrc, const char* fragSrc, const char* geoSrc){
@@ -69,13 +74,13 @@ void Shader::compile(const char* vertSrc, const char* fragSrc, const char* geoSr
         checkErrors(gShader, "GEOMETRY");
     }
 
-    this->ID = glCreateProgram();
-    glAttachShader(this->ID, sVertex);
-    glAttachShader(this->ID, sFragment);
+    this->glID = glCreateProgram();
+    glAttachShader(this->glID, sVertex);
+    glAttachShader(this->glID, sFragment);
     if (geoSrc != nullptr)
-        glAttachShader(this->ID, gShader);
-    glLinkProgram(this->ID);
-    checkErrors(this->ID, "PROGRAM");
+        glAttachShader(this->glID, gShader);
+    glLinkProgram(this->glID);
+    checkErrors(this->glID, "PROGRAM");
 
 
     glDeleteShader(sVertex);
@@ -86,7 +91,7 @@ void Shader::compile(const char* vertSrc, const char* fragSrc, const char* geoSr
 }
 
 void Shader::createUniform(std::string name){
-    uniforms[name] = glGetUniformLocation(this->ID, name.c_str());
+    uniforms[name] = glGetUniformLocation(this->glID, name.c_str());
 }
 
 void Shader::loadUniform1f(std::string name, float v){

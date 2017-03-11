@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FJ_Engine/fj_engine.h"
+#include "FJ_Engine/engine.h"
 
 class FrontierJustice
 {

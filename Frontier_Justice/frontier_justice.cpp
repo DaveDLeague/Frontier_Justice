@@ -5,139 +5,220 @@
 #include <time.h>
 #include <stdlib.h>
 
-GLfloat verts[] = {
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
+#include <assimp/cimport.h>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
-        -0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
+float verts[] = {
+    -1.0, -1.0, 1.0,
+    -1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0,
+    1.0, -1.0, 1.0,
+    -1.0, -1.0, 1.0,
 
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
+    -1.0, -1.0, 1.0,
+    -1.0, -1.0, -1.0,
+    -1.0, 1.0, 1.0,
+    -1.0, 1.0, 1.0,
+    -1.0, -1.0, -1.0,
+    -1.0, 1.0, -1.0,
 
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
+    1.0, -1.0, -1.0,
+    1.0, 1.0, -1.0,
+    -1.0, 1.0, -1.0,
+    -1.0, 1.0, -1.0,
+    -1.0, -1.0, -1.0,
+    1.0, -1.0, -1.0,
 
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f, -0.5f,
+    1.0, -1.0, 1.0,
+    1.0, 1.0, 1.0,
+    1.0, 1.0, -1.0,
+    1.0, 1.0, -1.0,
+    1.0, -1.0, -1.0,
+    1.0, -1.0, 1.0,
 
-        -0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f
-    };
+    -1.0, 1.0, 1.0,
+    -1.0, 1.0, -1.0,
+    1.0, 1.0, -1.0,
+    1.0, 1.0, -1.0,
+    1.0, 1.0, 1.0,
+    -1.0, 1.0, 1.0,
 
-float tCoords[] = {
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-    0.0f, 0.0f,
-
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-    0.0f, 0.0f,
-
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-    0.0f, 0.0f,
-
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-    0.0f, 0.0f,
-
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-    0.0f, 0.0f,
-
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-    0.0f, 0.0f
+    -1.0, -1.0, -1.0,
+    -1.0, -1.0, 1.0,
+    1.0, -1.0, 1.0,
+    1.0, -1.0, 1.0,
+    1.0, -1.0, -1.0,
+    -1.0, -1.0, -1.0
 };
 
-float normals[] = {
-    0.0f, 0.0f, -1.0f,
-    0.0f, 0.0f, -1.0f,
-    0.0f, 0.0f, -1.0f,
-    0.0f, 0.0f, -1.0f,
-    0.0f, 0.0f, -1.0f,
-    0.0f, 0.0f, -1.0f,
+float norms[] = {
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
 
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
 
-    -1.0f, 0.0f, 0.0f,
-    -1.0f, 0.0f, 0.0f,
-    -1.0f, 0.0f, 0.0f,
-    -1.0f, 0.0f, 0.0f,
-    -1.0f, 0.0f, 0.0f,
-    -1.0f, 0.0f, 0.0f,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
 
-    1.0f, 0.0f, 0.0f,
-    1.0f, 0.0f, 0.0f,
-    1.0f, 0.0f, 0.0f,
-    1.0f, 0.0f, 0.0f,
-    1.0f, 0.0f, 0.0f,
-    1.0f, 0.0f, 0.0f,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
 
-    0.0f, -1.0f, 0.0f,
-    0.0f, -1.0f, 0.0f,
-    0.0f, -1.0f, 0.0f,
-    0.0f, -1.0f, 0.0f,
-    0.0f, -1.0f, 0.0f,
-    0.0f, -1.0f, 0.0f,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
 
-    0.0f, 1.0f, 0.0f,
-    0.0f, 1.0f, 0.0f,
-    0.0f, 1.0f, 0.0f,
-    0.0f, 1.0f, 0.0f,
-    0.0f, 1.0f, 0.0f,
-    0.0f, 1.0f, 0.0f
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0
 };
 
-int sz = 3*6*6;
+bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
+    const aiScene* scene = aiImportFile (file_name, aiProcess_Triangulate);
+    if (!scene) {
+        fprintf (stderr, "ERROR: reading mesh %s\n", file_name);
+        return false;
+    }
+    printf ("  %i animations\n", scene->mNumAnimations);
+    printf ("  %i cameras\n", scene->mNumCameras);
+    printf ("  %i lights\n", scene->mNumLights);
+    printf ("  %i materials\n", scene->mNumMaterials);
+    printf ("  %i meshes\n", scene->mNumMeshes);
+    printf ("  %i textures\n", scene->mNumTextures);
+
+    /* get first mesh in file only */
+    const aiMesh* mesh = scene->mMeshes[0];
+    printf ("    %i vertices in mesh[0]\n", mesh->mNumVertices);
+
+    /* pass back number of vertex points in mesh */
+    *point_count = mesh->mNumVertices;
+
+    /* generate a VAO, using the pass-by-reference parameter that we give to the
+    function */
+    glGenVertexArrays (1, vao);
+    glBindVertexArray (*vao);
+
+    /* we really need to copy out all the data from AssImp's funny little data
+    structures into pure contiguous arrays before we copy it into data buffers
+    because assimp's texture coordinates are not really contiguous in memory.
+    i allocate some dynamic memory to do this. */
+    GLfloat* points = NULL; // array of vertex points
+    GLfloat* normals = NULL; // array of vertex normals
+    GLfloat* texcoords = NULL; // array of texture coordinates
+    if (mesh->HasPositions ()) {
+        points = (GLfloat*)malloc (*point_count * 3 * sizeof (GLfloat));
+        for (int i = 0; i < *point_count; i++) {
+            const aiVector3D* vp = &(mesh->mVertices[i]);
+            points[i * 3] = (GLfloat)vp->x;
+            points[i * 3 + 1] = (GLfloat)vp->y;
+            points[i * 3 + 2] = (GLfloat)vp->z;
+        }
+    }
+    if (mesh->HasNormals ()) {
+        normals = (GLfloat*)malloc (*point_count * 3 * sizeof (GLfloat));
+        for (int i = 0; i < *point_count; i++) {
+            const aiVector3D* vn = &(mesh->mNormals[i]);
+            normals[i * 3] = (GLfloat)vn->x;
+            normals[i * 3 + 1] = (GLfloat)vn->y;
+            normals[i * 3 + 2] = (GLfloat)vn->z;
+        }
+    }
+    if (mesh->HasTextureCoords (0)) {
+        texcoords = (GLfloat*)malloc (*point_count * 2 * sizeof (GLfloat));
+        for (int i = 0; i < *point_count; i++) {
+            const aiVector3D* vt = &(mesh->mTextureCoords[0][i]);
+            texcoords[i * 2] = (GLfloat)vt->x;
+            texcoords[i * 2 + 1] = (GLfloat)vt->y;
+        }
+    }
+
+    /* copy mesh data into VBOs */
+    if (mesh->HasPositions ()) {
+        GLuint vbo;
+        glGenBuffers (1, &vbo);
+        glBindBuffer (GL_ARRAY_BUFFER, vbo);
+        glBufferData (
+            GL_ARRAY_BUFFER,
+            3 * *point_count * sizeof (GLfloat),
+            points,
+            GL_STATIC_DRAW
+        );
+        glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+        glEnableVertexAttribArray (0);
+        free (points);
+    }
+    if (mesh->HasNormals ()) {
+        GLuint vbo;
+        glGenBuffers (1, &vbo);
+        glBindBuffer (GL_ARRAY_BUFFER, vbo);
+        glBufferData (
+            GL_ARRAY_BUFFER,
+            3 * *point_count * sizeof (GLfloat),
+            normals,
+            GL_STATIC_DRAW
+        );
+        glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+        glEnableVertexAttribArray (1);
+        free (normals);
+    }
+    if (mesh->HasTextureCoords (0)) {
+        GLuint vbo;
+        glGenBuffers (1, &vbo);
+        glBindBuffer (GL_ARRAY_BUFFER, vbo);
+        glBufferData (
+            GL_ARRAY_BUFFER,
+            2 * *point_count * sizeof (GLfloat),
+            texcoords,
+            GL_STATIC_DRAW
+        );
+        glVertexAttribPointer (2, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+        glEnableVertexAttribArray (2);
+        free (texcoords);
+    }
+    if (mesh->HasTangentsAndBitangents ()) {
+        // NB: could store/print tangents here
+    }
+
+    aiReleaseImport (scene);
+    printf ("mesh loaded\n");
+
+    return true;
+}
+
+void calcModelMat(GameObject* o){
+    o->modelMatrix = mat4(1);
+    quat qyaw = angleAxis(o->rotation.y, vec3(0, 1, 0));
+    quat qpitch = angleAxis(o->rotation.x, vec3(1, 0, 0));
+    quat qroll = angleAxis(o->rotation.z, vec3(0, 0, 1));
+    o->rotQuat = qroll * qyaw * qpitch * o->rotQuat;
+    o->modelMatrix = translate(o->modelMatrix, o->position);
+    o->modelMatrix = o->modelMatrix * mat4_cast(o->rotQuat);
+    o->modelMatrix = scale(o->modelMatrix, o->scale);
+}
 
 FrontierJustice::FrontierJustice(){
 
@@ -153,51 +234,41 @@ bool FrontierJustice::init(){
 
 void FrontierJustice::start(){
     GameWindow *window = FJEngine::createGameWindow("Frontier Justice", 0, 0, 800, 600);
-    //window->setFullScreen(true);
-    //window->setVSync(true);
-
-    Scene s;
-
-    Shader* flat = s.createShader();
-    flat->compile("../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_vert.glsl",
-                  "../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_frag.glsl");
-    flat->createUniform("viewMat");
-    flat->createUniform("modelMat");
-    flat->createUniform("lightPosition");
-    flat->createUniform("viewPosition");
-    flat->createUniform("lightColor");
-    flat->createUniform("objectColor");
-
-    Mesh* m = s.createMesh(verts, sz);
-    FJ_Object* box = s.createObject();
-    s.addMeshToObject(box, m);
-    s.attatchShaderToObject(box, flat);
 
     Camera cam(vec3(0, 0, -10), vec3(0, 1, 0));
     cam.setPerspective(-75.0f, window->getWidth()/window->getHeight(), 0.0001f, 1000.0f);
+    cam.position.z = -30;
 
-    unsigned char col[] = {128, 128, 128};
-    Texture* t = s.createTexture();
-    t->loadImage("../Frontier_Justice/res/textures/dragon.bmp", true);
-    //t->loadData(col, 1, 1, false);
-    s.addTextureToMesh(m, t, tCoords, 2*6*6);
 
-    m->addNormalCoordinates(normals, sz);
+    Shader shad;
+    shad.compile("../Frontier_Justice/FJ_Engine/Render_Engine/shaders/light_vert.glsl",
+                 "../Frontier_Justice/FJ_Engine/Render_Engine/shaders/light_frag.glsl");
+    shad.createUniform("modelMatrix");
+    shad.createUniform("viewMatrix");
+    shad.createUniform("lightPosition");
 
-    FJ_Object* light = s.createObject();
-    Mesh* lmesh = s.createMesh(verts, sz);
-    s.attatchShaderToObject(light, flat);
-    s.addMeshToObject(light, lmesh);
+    Shader fshad;
+    fshad.compile("../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_vert.glsl",
+                 "../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_frag.glsl");
+    fshad.createUniform("modelMatrix");
+    fshad.createUniform("viewMatrix");
+    fshad.createUniform("modelColor");
 
-    unsigned char lcolor[] = {255, 255, 255};
-    Texture* ltex = s.createTexture();
-    ltex->loadData(lcolor, 1, 1, false);
-    s.addTextureToMesh(lmesh, ltex, tCoords, 2*6*6);
 
-    vec3 lightPosition(1, 1, 1);
 
-    light->scale = vec3(0.25f, 0.25f, 0.25f);
-    light->position = lightPosition;
+    int size = 3*6*6;
+
+    Mesh tri;
+    tri.addVertices(verts, size);
+    tri.addNormalCoordinates(norms, size);
+
+    GameObject o;
+    Mesh m;
+    load_mesh("../Frontier_Justice/res/models/monkey2.obj", &m.vao, &m.vertexCount);
+    o.mesh = &tri;
+
+    GameObject l;
+    l.mesh = &m;
 
     long startTime = SDL_GetTicks();
     long endTime = startTime;
@@ -209,12 +280,7 @@ void FrontierJustice::start(){
     float rotationSpeed = 0.0005f;
     float movementSpeed = 0.005f;
 
-    flat->loadUniform3f("lightPosition", light->position);
-    flat->loadUniform3f("viewPosition", cam.position);
-    flat->loadUniform3f("lightColor", vec3(0, 0, 1));
-    //flat->loadUniform3f("objectColor", );
-
-    float r = 0, g = 0, b = 0;
+    vec3 lightPosition = vec3(5, 5, 5);
 
     while(!quit){
         FJEngine::update();
@@ -249,31 +315,37 @@ void FrontierJustice::start(){
 
         quit = InputManager::keys[InputManager::ESC_KEY];
 
-
-        flat->loadUniform3f("lightPosition", light->position);
-        flat->loadUniform3f("viewPosition", cam.position);
-        flat->loadUniform3f("lightColor", vec3(0, 0, 1));
-
-        //box->rotation = vec3(0.0001, 0.0001, 0.0001);
-
-        //light->position -= vec3(0.00001, 0, 0);
-
-        flat->loadUniform3f("lightPosition", light->position);
-        flat->loadUniform3f("viewPosition", cam.position);
-        flat->loadUniform3f("lightColor", vec3(r, g, b));
-
-        r += (float)InputManager::keys[InputManager::F1_KEY] * 0.0001;
-        g += (float)InputManager::keys[InputManager::F2_KEY] * 0.0001;
-        b += (float)InputManager::keys[InputManager::F3_KEY] * 0.0001;
-        r -= (float)InputManager::keys[InputManager::F5_KEY] * 0.0001;
-        g -= (float)InputManager::keys[InputManager::F6_KEY] * 0.0001;
-        b -= (float)InputManager::keys[InputManager::F7_KEY] * 0.0001;
-
         cam.update();
-        s.update();
-        s.render(&cam);
-        window->update();
 
+        shad.use();
+        glBindVertexArray(o.mesh->vao);
+
+        o.rotation.y = 0.0001;
+
+        calcModelMat(&o);
+        shad.loadUniformMat4("modelMatrix", o.modelMatrix);
+        shad.loadUniformMat4("viewMatrix", cam.viewMatrix);
+        shad.loadUniform3f("lightPosition", lightPosition);
+
+        glDrawArrays(GL_TRIANGLES, 0, o.mesh->vertexCount / 3);
+
+        l.position = lightPosition;
+        l.scale.x = 0.25;
+        l.scale.y = 0.25;
+        l.scale.z = 0.25;
+
+        calcModelMat(&l);
+        fshad.use();
+        glBindVertexArray(l.mesh->vao);
+        fshad.loadUniformMat4("modelMatrix", l.modelMatrix);
+        fshad.loadUniformMat4("viewMatrix", cam.viewMatrix);
+        fshad.loadUniform4f("modelColor", vec4(1, 1, 1, 1));
+        glDrawArrays(GL_TRIANGLES, 0, l.mesh->vertexCount);
+
+        //lightPosition.x -= 0.00001;
+        lightPosition.y -= 0.00001;
+
+        window->update();
         endTime = SDL_GetTicks();
     }
 }

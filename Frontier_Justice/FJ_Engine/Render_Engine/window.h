@@ -17,7 +17,6 @@ public:
 private:
     static bool initialized;
     bool fullScreen;
-    bool vsync;
     int width;
     int height;
 };
