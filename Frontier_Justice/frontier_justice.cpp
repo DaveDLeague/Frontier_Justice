@@ -97,6 +97,24 @@ float norms[] = {
     0.0, -1.0, 0.0
 };
 
+float pverts[] = {
+    -1.0, 0.0, 1.0,
+    -1.0, 0.0, -1.0,
+    1.0, 0.0, -1.0,
+    1.0, 0.0, -1.0,
+    1.0, 0.0, 1.0,
+    -1.0, 0.0, 1.0
+};
+
+float pnorms[] = {
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0
+};
+
 bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
     const aiScene* scene = aiImportFile (file_name, aiProcess_Triangulate);
     if (!scene) {
@@ -246,6 +264,7 @@ void FrontierJustice::start(){
     shad.createUniform("modelMatrix");
     shad.createUniform("viewMatrix");
     shad.createUniform("lightPosition");
+    shad.createUniform("modelColor");
 
     Shader fshad;
     fshad.compile("../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_vert.glsl",
@@ -253,8 +272,6 @@ void FrontierJustice::start(){
     fshad.createUniform("modelMatrix");
     fshad.createUniform("viewMatrix");
     fshad.createUniform("modelColor");
-
-
 
     int size = 3*6*6;
 
@@ -270,6 +287,17 @@ void FrontierJustice::start(){
     GameObject l;
     l.mesh = &m;
 
+    GameObject p;
+    Mesh pm;
+    pm.addVertices(pverts, 18);
+    pm.addNormalCoordinates(pnorms, 18);
+    p.mesh = &pm;
+
+    p.scale = vec3(500, 1, 500);
+
+    p.position.y = -10;
+    //o.rotation.y = 0.0001;
+
     long startTime = SDL_GetTicks();
     long endTime = startTime;
     long fpsTime = startTime;
@@ -280,7 +308,9 @@ void FrontierJustice::start(){
     float rotationSpeed = 0.0005f;
     float movementSpeed = 0.005f;
 
-    vec3 lightPosition = vec3(5, 5, 5);
+    vec3 lightPosition = vec3(0, 0, 0);
+
+    float pp = 0;
 
     while(!quit){
         FJEngine::update();
@@ -320,14 +350,27 @@ void FrontierJustice::start(){
         shad.use();
         glBindVertexArray(o.mesh->vao);
 
-        o.rotation.y = 0.0001;
+        o.rotation.x = 0.00005;
+        o.rotation.y = 0.00005;
+        o.rotation.z = 0.00005;
 
         calcModelMat(&o);
         shad.loadUniformMat4("modelMatrix", o.modelMatrix);
         shad.loadUniformMat4("viewMatrix", cam.viewMatrix);
         shad.loadUniform3f("lightPosition", lightPosition);
+        shad.loadUniform3f("modelColor", vec3(0, 0, 1));
 
         glDrawArrays(GL_TRIANGLES, 0, o.mesh->vertexCount / 3);
+
+        glBindVertexArray(p.mesh->vao);
+
+        calcModelMat(&p);
+        shad.loadUniformMat4("modelMatrix", p.modelMatrix);
+        shad.loadUniformMat4("viewMatrix", cam.viewMatrix);
+        shad.loadUniform3f("lightPosition", lightPosition);
+        shad.loadUniform3f("modelColor", vec3(0, 1, 0));
+
+        glDrawArrays(GL_TRIANGLES, 0, p.mesh->vertexCount / 3);
 
         l.position = lightPosition;
         l.scale.x = 0.25;
@@ -342,9 +385,9 @@ void FrontierJustice::start(){
         fshad.loadUniform4f("modelColor", vec4(1, 1, 1, 1));
         glDrawArrays(GL_TRIANGLES, 0, l.mesh->vertexCount);
 
-        //lightPosition.x -= 0.00001;
-        lightPosition.y -= 0.00001;
-
+        lightPosition.x = (5 * sin(pp));
+        lightPosition.z = (5 * cos(pp));
+        pp += 0.00001;
         window->update();
         endTime = SDL_GetTicks();
     }

@@ -53,7 +53,9 @@ DISTFILES += \
     FJ_Engine/Render_Engine/shaders/light_frag.glsl \
     FJ_Engine/Render_Engine/shaders/light_vert.glsl \
     FJ_Engine/Render_Engine/shaders/flat_tex_frag.glsl \
-    FJ_Engine/Render_Engine/shaders/flat_tex_vert.glsl
+    FJ_Engine/Render_Engine/shaders/flat_tex_vert.glsl \
+    FJ_Engine/Render_Engine/shaders/light_fragV.glsl \
+    FJ_Engine/Render_Engine/shaders/light_vertV.glsl
 
 unix:!macx: LIBS += -L$$PWD/../../../../../usr/local/lib/ -lSOIL
 
