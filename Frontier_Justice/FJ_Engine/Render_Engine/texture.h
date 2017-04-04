@@ -14,5 +14,6 @@ public:
     Texture();
     void loadData(unsigned char* data, int width, int height, bool hasAlpha);
     void loadImage(const char* image, bool hasAlpha);
+    void bind();
 };
 

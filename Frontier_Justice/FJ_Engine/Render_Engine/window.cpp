@@ -39,7 +39,7 @@ GameWindow::GameWindow(const char* title, int locX, int locY, int width, int hei
     printf("Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
     SDL_GL_SetSwapInterval(0);
-    glClearColor(0, 0, 0.5, 1);
+    glClearColor(0, 0.3, 0, 1);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc (GL_LESS);

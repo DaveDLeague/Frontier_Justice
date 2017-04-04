@@ -26,6 +26,7 @@ public:
     void loadUniform3f(std::string name, vec3 v);
     void loadUniform4f(std::string name, float v1, float v2, float v3, float v4);
     void loadUniform4f(std::string name, vec4 v);
+    void loadUniform1i(std::string name, int i);
     void loadUniformMat3(std::string name, mat3 m);
     void loadUniformMat4(std::string name, mat4 m);
 

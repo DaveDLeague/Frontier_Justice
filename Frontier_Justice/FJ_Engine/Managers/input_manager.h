@@ -5,6 +5,7 @@
 class InputManager
 {
 public:
+
     static const int ESC_KEY = SDL_SCANCODE_ESCAPE;
     static const int ENTER_KEY = SDL_SCANCODE_RETURN;
 
@@ -12,6 +13,8 @@ public:
     static const int DOWN_KEY = SDL_SCANCODE_DOWN;
     static const int LEFT_KEY = SDL_SCANCODE_LEFT;
     static const int RIGHT_KEY = SDL_SCANCODE_RIGHT;
+
+    static const int LEFT_SHIFT = SDL_SCANCODE_LSHIFT;
 
     static const int F1_KEY = SDL_SCANCODE_F1;
     static const int F2_KEY = SDL_SCANCODE_F2;
@@ -39,11 +42,40 @@ public:
     static const int RIGHT_MOUSE_BUTTON = SDL_BUTTON_RIGHT;
     static const int MIDDLE_MOUSE_BUTTON = SDL_BUTTON_MIDDLE;
 
+    static const int CONTROLLER_A_BUTTON = SDL_CONTROLLER_BUTTON_A;
+    static const int CONTROLLER_B_BUTTON = SDL_CONTROLLER_BUTTON_B;
+    static const int CONTROLLER_Y_BUTTON = SDL_CONTROLLER_BUTTON_Y;
+    static const int CONTROLLER_X_BUTTON = SDL_CONTROLLER_BUTTON_X;
+    static const int CONTROLLER_DOWN_BUTTON = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+    static const int CONTROLLER_LEFT_BUTTON = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+    static const int CONTROLLER_RIGHT_BUTTON = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+    static const int CONTROLLER_UP_BUTTON = SDL_CONTROLLER_BUTTON_DPAD_UP;
+    static const int CONTROLLER_BACK_BUTTON = SDL_CONTROLLER_BUTTON_BACK;
+    static const int CONTROLLER_START_BUTTON = SDL_CONTROLLER_BUTTON_START;
+    static const int CONTROLLER_LEFT_STICK_BUTTON = SDL_CONTROLLER_BUTTON_LEFTSTICK;
+    static const int CONTROLLER_RIGHT_STICK_BUTTON = SDL_CONTROLLER_BUTTON_RIGHTSTICK;
+    static const int CONTROLLER_LEFT_BUMPER_BUTTON = SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
+    static const int CONTROLLER_RIGHT_BUMPER_BUTTON = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+
+    static const int CONTROLLER_LEFT_X_AXIS = SDL_CONTROLLER_AXIS_LEFTX;
+    static const int CONTROLLER_LEFT_Y_AXIS = SDL_CONTROLLER_AXIS_LEFTY;
+    static const int CONTROLLER_RIGHT_X_AXIS = SDL_CONTROLLER_AXIS_RIGHTX;
+    static const int CONTROLLER_RIGHT_Y_AXIS = SDL_CONTROLLER_AXIS_RIGHTY;
+    static const int CONTROLLER_LEFT_TRIGGER = SDL_CONTROLLER_AXIS_TRIGGERLEFT;
+    static const int CONTROLLER_RIGHT_TRIGGER = SDL_CONTROLLER_AXIS_TRIGGERRIGHT;
+
     static const int TOTAL_KEYS = 256;
-    static const int TOTAL_MOUSE_BUTTONS = 5;
+    static const int TOTAL_MOUSE_BUTTONS = 8;
+    static const int TOTAL_CONTROLLER_BUTTONS = 16;
+    static const int TOTAL_CONTROLLER_AXES = 8;
 
     static bool keys[TOTAL_KEYS];
     static bool mouseButtons[TOTAL_MOUSE_BUTTONS];
+    static bool controller1Buttons[TOTAL_CONTROLLER_BUTTONS];
+    static bool controller2Buttons[TOTAL_CONTROLLER_BUTTONS];
+
+    static float controller1Axes[TOTAL_CONTROLLER_AXES];
+    static float controller2Axes[TOTAL_CONTROLLER_AXES];
 
     static int mouseCursorX;
     static int mouseCursorY;
@@ -51,6 +83,10 @@ public:
     InputManager();
 
     static void update();
+    static void initGameControllers();
+    static void cleanUp();
 
 private:
+    static SDL_GameController* controller1;
+    static SDL_GameController* controller2;
 };

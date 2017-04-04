@@ -9,112 +9,6 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-float verts[] = {
-    -1.0, -1.0, 1.0,
-    -1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0,
-    1.0, -1.0, 1.0,
-    -1.0, -1.0, 1.0,
-
-    -1.0, -1.0, 1.0,
-    -1.0, -1.0, -1.0,
-    -1.0, 1.0, 1.0,
-    -1.0, 1.0, 1.0,
-    -1.0, -1.0, -1.0,
-    -1.0, 1.0, -1.0,
-
-    1.0, -1.0, -1.0,
-    1.0, 1.0, -1.0,
-    -1.0, 1.0, -1.0,
-    -1.0, 1.0, -1.0,
-    -1.0, -1.0, -1.0,
-    1.0, -1.0, -1.0,
-
-    1.0, -1.0, 1.0,
-    1.0, 1.0, 1.0,
-    1.0, 1.0, -1.0,
-    1.0, 1.0, -1.0,
-    1.0, -1.0, -1.0,
-    1.0, -1.0, 1.0,
-
-    -1.0, 1.0, 1.0,
-    -1.0, 1.0, -1.0,
-    1.0, 1.0, -1.0,
-    1.0, 1.0, -1.0,
-    1.0, 1.0, 1.0,
-    -1.0, 1.0, 1.0,
-
-    -1.0, -1.0, -1.0,
-    -1.0, -1.0, 1.0,
-    1.0, -1.0, 1.0,
-    1.0, -1.0, 1.0,
-    1.0, -1.0, -1.0,
-    -1.0, -1.0, -1.0
-};
-
-float norms[] = {
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-    0.0, 0.0, 1.0,
-
-    -1.0, 0.0, 0.0,
-    -1.0, 0.0, 0.0,
-    -1.0, 0.0, 0.0,
-    -1.0, 0.0, 0.0,
-    -1.0, 0.0, 0.0,
-    -1.0, 0.0, 0.0,
-
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-    0.0, 0.0, -1.0,
-
-    1.0, 0.0, 0.0,
-    1.0, 0.0, 0.0,
-    1.0, 0.0, 0.0,
-    1.0, 0.0, 0.0,
-    1.0, 0.0, 0.0,
-    1.0, 0.0, 0.0,
-
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-
-    0.0, -1.0, 0.0,
-    0.0, -1.0, 0.0,
-    0.0, -1.0, 0.0,
-    0.0, -1.0, 0.0,
-    0.0, -1.0, 0.0,
-    0.0, -1.0, 0.0
-};
-
-float pverts[] = {
-    -1.0, 0.0, 1.0,
-    -1.0, 0.0, -1.0,
-    1.0, 0.0, -1.0,
-    1.0, 0.0, -1.0,
-    1.0, 0.0, 1.0,
-    -1.0, 0.0, 1.0
-};
-
-float pnorms[] = {
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0
-};
-
 bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
     const aiScene* scene = aiImportFile (file_name, aiProcess_Triangulate);
     if (!scene) {
@@ -147,6 +41,7 @@ bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
     GLfloat* points = NULL; // array of vertex points
     GLfloat* normals = NULL; // array of vertex normals
     GLfloat* texcoords = NULL; // array of texture coordinates
+
     if (mesh->HasPositions ()) {
         points = (GLfloat*)malloc (*point_count * 3 * sizeof (GLfloat));
         for (int i = 0; i < *point_count; i++) {
@@ -255,48 +150,61 @@ void FrontierJustice::start(){
 
     Camera cam(vec3(0, 0, -10), vec3(0, 1, 0));
     cam.setPerspective(-75.0f, window->getWidth()/window->getHeight(), 0.0001f, 1000.0f);
-    cam.position.z = -30;
-
 
     Shader shad;
-    shad.compile("../Frontier_Justice/FJ_Engine/Render_Engine/shaders/light_vert.glsl",
-                 "../Frontier_Justice/FJ_Engine/Render_Engine/shaders/light_frag.glsl");
+    shad.compile("../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_vert.glsl",
+                 "../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_frag.glsl");
+
     shad.createUniform("modelMatrix");
     shad.createUniform("viewMatrix");
     shad.createUniform("lightPosition");
-    shad.createUniform("modelColor");
+    shad.createUniform("textureSampler");
+    shad.createUniform("normalSampler");
 
-    Shader fshad;
-    fshad.compile("../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_vert.glsl",
-                 "../Frontier_Justice/FJ_Engine/Render_Engine/shaders/flat_frag.glsl");
-    fshad.createUniform("modelMatrix");
-    fshad.createUniform("viewMatrix");
-    fshad.createUniform("modelColor");
+    Texture tex;
+    tex.loadImage("../Frontier_Justice/res/textures/160.png", false);
 
-    int size = 3*6*6;
+    Texture norm;
+    norm.loadImage("../Frontier_Justice/res/textures/160_norm.png", true);
 
-    Mesh tri;
-    tri.addVertices(verts, size);
-    tri.addNormalCoordinates(norms, size);
+    glActiveTexture(GL_TEXTURE0 + 0);
+    glBindTexture(GL_TEXTURE_2D, tex.texID);
+    glActiveTexture(GL_TEXTURE0 + 2);
+    glBindTexture(GL_TEXTURE_2D, norm.texID);
 
-    GameObject o;
-    Mesh m;
-    load_mesh("../Frontier_Justice/res/models/monkey2.obj", &m.vao, &m.vertexCount);
-    o.mesh = &tri;
 
-    GameObject l;
-    l.mesh = &m;
+    float verts[] = {
+        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, -1.0f,     0.0f, 0.0f,
+        -0.5f,  0.5f, 0.0f,     0.0f, 0.0f, -1.0f,     0.0f, 1.0f,
+         0.5f,  0.5f, 0.0f,     0.0f, 0.0f, -1.0f,     1.0f, 1.0f,
+         0.5f, -0.5f, 0.0f,     0.0f, 0.0f, -1.0f,     1.0f, 0.0f
+    };
 
-    GameObject p;
-    Mesh pm;
-    pm.addVertices(pverts, 18);
-    pm.addNormalCoordinates(pnorms, 18);
-    p.mesh = &pm;
+    unsigned int elems[] = {
+        0, 1, 2, 2, 3, 0
+    };
 
-    p.scale = vec3(500, 1, 500);
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
-    p.position.y = -10;
-    //o.rotation.y = 0.0001;
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 6));
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+    GLuint ebo;
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elems), elems, GL_STATIC_DRAW);
 
     long startTime = SDL_GetTicks();
     long endTime = startTime;
@@ -306,11 +214,14 @@ void FrontierJustice::start(){
     int fps = 0;
 
     float rotationSpeed = 0.0005f;
-    float movementSpeed = 0.005f;
+    float movementSpeed = 0.001f;
 
-    vec3 lightPosition = vec3(0, 0, 0);
+    float xx = 0;
+    float yy = 0;
 
-    float pp = 0;
+    InputManager::initGameControllers();
+
+    GameObject o;
 
     while(!quit){
         FJEngine::update();
@@ -323,6 +234,12 @@ void FrontierJustice::start(){
             fpsTime = startTime;
         }
         fps++;
+
+        if(InputManager::keys[InputManager::LEFT_SHIFT]){
+            movementSpeed = 0.01f;
+        }else{
+            movementSpeed = 0.001f;
+        }
 
         cam.yaw = 0;
         cam.yaw += InputManager::keys[InputManager::RIGHT_KEY] * rotationSpeed * deltaTime;
@@ -345,50 +262,33 @@ void FrontierJustice::start(){
 
         quit = InputManager::keys[InputManager::ESC_KEY];
 
+        cam.position += cam.right * movementSpeed * deltaTime * InputManager::controller1Axes[InputManager::CONTROLLER_LEFT_X_AXIS];
+        cam.position -= cam.forward * movementSpeed * deltaTime * InputManager::controller1Axes[InputManager::CONTROLLER_LEFT_Y_AXIS];
+        cam.position -= cam.up * movementSpeed * deltaTime * InputManager::controller1Axes[InputManager::CONTROLLER_LEFT_TRIGGER];
+        cam.position += cam.up * movementSpeed * deltaTime * InputManager::controller1Axes[InputManager::CONTROLLER_RIGHT_TRIGGER];
+        cam.yaw += InputManager::controller1Axes[InputManager::CONTROLLER_RIGHT_X_AXIS] * deltaTime * 0.001;
+        cam.pitch += InputManager::controller1Axes[InputManager::CONTROLLER_RIGHT_Y_AXIS] * deltaTime * 0.001;
+        cam.roll += rotationSpeed * deltaTime * InputManager::controller1Buttons[InputManager::CONTROLLER_LEFT_BUMPER_BUTTON];
+        cam.roll -= rotationSpeed * deltaTime * InputManager::controller1Buttons[InputManager::CONTROLLER_RIGHT_BUMPER_BUTTON];
         cam.update();
 
         shad.use();
-        glBindVertexArray(o.mesh->vao);
-
-        o.rotation.x = 0.00005;
-        o.rotation.y = 0.00005;
-        o.rotation.z = 0.00005;
-
-        calcModelMat(&o);
         shad.loadUniformMat4("modelMatrix", o.modelMatrix);
         shad.loadUniformMat4("viewMatrix", cam.viewMatrix);
-        shad.loadUniform3f("lightPosition", lightPosition);
-        shad.loadUniform3f("modelColor", vec3(0, 0, 1));
+        shad.loadUniform3f("lightPosition", vec3(xx, yy, -5));
+        shad.loadUniform1i("textureSampler", 0);
+        shad.loadUniform1i("normalSampler", 2);
 
-        glDrawArrays(GL_TRIANGLES, 0, o.mesh->vertexCount / 3);
 
-        glBindVertexArray(p.mesh->vao);
+        xx += 0.001f * deltaTime;
+        yy += 0.001f * deltaTime;
 
-        calcModelMat(&p);
-        shad.loadUniformMat4("modelMatrix", p.modelMatrix);
-        shad.loadUniformMat4("viewMatrix", cam.viewMatrix);
-        shad.loadUniform3f("lightPosition", lightPosition);
-        shad.loadUniform3f("modelColor", vec3(0, 1, 0));
+        glBindVertexArray(vao);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 
-        glDrawArrays(GL_TRIANGLES, 0, p.mesh->vertexCount / 3);
-
-        l.position = lightPosition;
-        l.scale.x = 0.25;
-        l.scale.y = 0.25;
-        l.scale.z = 0.25;
-
-        calcModelMat(&l);
-        fshad.use();
-        glBindVertexArray(l.mesh->vao);
-        fshad.loadUniformMat4("modelMatrix", l.modelMatrix);
-        fshad.loadUniformMat4("viewMatrix", cam.viewMatrix);
-        fshad.loadUniform4f("modelColor", vec4(1, 1, 1, 1));
-        glDrawArrays(GL_TRIANGLES, 0, l.mesh->vertexCount);
-
-        lightPosition.x = (5 * sin(pp));
-        lightPosition.z = (5 * cos(pp));
-        pp += 0.00001;
         window->update();
         endTime = SDL_GetTicks();
     }
+
+    InputManager::cleanUp();
 }

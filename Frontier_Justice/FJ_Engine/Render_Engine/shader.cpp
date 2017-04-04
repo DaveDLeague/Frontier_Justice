@@ -122,6 +122,10 @@ void Shader::loadUniform4f(std::string name, vec4 v){
     glUniform4f(uniforms[name], v.x, v.y, v.z, v.w);
 }
 
+void Shader::loadUniform1i(std::string name, int i){
+     glUniform1i(uniforms[name], i);
+}
+
 void Shader::loadUniformMat3(std::string name, mat3 m){
     glUniformMatrix3fv(uniforms[name], 1, GL_FALSE, value_ptr(m));
 }

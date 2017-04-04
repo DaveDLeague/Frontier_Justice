@@ -17,7 +17,7 @@ out vec4 fColor;
 void main(void)
 {
     pos = vec3(modelMatrix * vec4(position, 1));
-    norm = vec3(modelMatrix * vec4(normal, 0));
+    norm = vec3(modelMatrix * vec4(-normal, 0));
 
 
     vec3 dVec = normalize(lightPosition - pos);
