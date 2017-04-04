@@ -4,8 +4,7 @@
 
 #include <GL/glew.h>
 
-#include "../fj_math.h"
-#include "../fj_object.h"
+#include "../math_util.h"
 
 using namespace std;
 
@@ -17,10 +16,12 @@ public:
     GLuint vao;
     vector<GLuint> vbos;
 
-    Mesh(const float* verts, int count);
+    Mesh();
+    void addVertices(const float* verts, int count);
     void addTextureCoordinates(const float* coords, int count);
     void addNormalCoordinates(const float* coords, int count);
 
 private:
+    int totalAttributes;
 };
 

@@ -15,7 +15,6 @@ GameWindow::GameWindow(const char* title, int locX, int locY, int width, int hei
     }
 
     fullScreen = false;
-    vsync = false;
     this->width = width;
     this->height = height;
 
@@ -40,9 +39,11 @@ GameWindow::GameWindow(const char* title, int locX, int locY, int width, int hei
     printf("Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
     SDL_GL_SetSwapInterval(0);
-    glClearColor(0, 0, 0.5, 1);
+    glClearColor(0, 0.3, 0, 1);
 
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc (GL_LESS);
+    glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
 
@@ -83,13 +84,6 @@ void GameWindow::setFullScreen(bool b){
     glViewport(0, 0, width, height);
 }
 
-void GameWindow::setVSync(bool b)
-{
-    vsync = b;
-
-    if(vsync){
-        SDL_GL_SetSwapInterval(1);
-    }else{
-        SDL_GL_SetSwapInterval(0);
-    }
+void GameWindow::setVSync(bool b){
+    SDL_GL_SetSwapInterval(b);
 }

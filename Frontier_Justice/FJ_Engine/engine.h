@@ -3,17 +3,22 @@
 #include <string>
 #include <vector>
 
-#include "fj_input_manager.h"
-#include "fj_math.h"
+#include "Managers/input_manager.h"
+#include "Managers/mesh_manager.h"
+#include "Managers/object_manager.h"
+#include "Managers/texture_manager.h"
 
-#include "fj_object.h"
-#include "fj_scene.h"
+#include "math_util.h"
 
-#include "Render_Engine/window.h"
-#include "Render_Engine/shader.h"
+#include "game_object.h"
+#include "game_scene.h"
+
 #include "Render_Engine/camera.h"
 #include "Render_Engine/mesh.h"
+#include "Render_Engine/renderer.h"
+#include "Render_Engine/shader.h"
 #include "Render_Engine/texture.h"
+#include "Render_Engine/window.h"
 
 using namespace std;
 

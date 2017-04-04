@@ -1,20 +1,24 @@
 #version 330 core
 
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec2 tCoord;
-layout(location = 2) in vec3 normals;
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec2 textureCoordinates;
 
-out vec2 texCoord;
-out vec3 vecNorm;
-out vec3 fragPos;
+out vec2 textureCoords;
 
-uniform mat4 modelMat;
-uniform mat4 viewMat;
+out vec3 fragNormal;
+out vec3 fragPosition;
+
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
 
 void main(void)
 {
-    texCoord = vec2(tCoord.x, 1 - tCoord.y);
-    fragPos = vec3(modelMat * vec4(position, 1.0f));
-    vecNorm = mat3(transpose(inverse(modelMat))) * normals;
-    gl_Position = viewMat * modelMat * vec4(position, 1.0);
+    fragNormal = vec3(modelMatrix * vec4(normal, 0));
+    fragPosition = vec3(modelMatrix * vec4(position, 1));
+
+    textureCoords.x = textureCoordinates.x;
+    textureCoords.y = 1 - textureCoordinates.y;
+
+    gl_Position = viewMatrix * vec4(fragPosition, 1.0);
 }
